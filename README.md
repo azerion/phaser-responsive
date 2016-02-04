@@ -23,12 +23,16 @@ You still need to load the plugin in your game. This is done just like any other
 ```javascript
 game.plugins.add(Fabrique.Plugins.Responsiveness);
 ```
+
 The plugin will patch your Phaser game with additional load/add/make methods so the responsive objects fits up in Phaser like any normal object!
+
 
 Add an image, text, button or sprite as you would in Phaser, adding 'responsive' in front of the name.
 When creating them, add a pin position in the parameters which can be either the middle of the canvas or one of it's edges.
 
+
 The available pin positions are:
+
 
 * topLeft
 * topCenter

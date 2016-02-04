@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Example for Phaser Responsiveness</title>
+
+    <!-- Include Phaser Responsiveness JS -->
+    <script type="text/javascript" src="../node_modules/phaser/build/phaser.js"></script>
+    <script type="text/javascript" src="../build/phaser-responsive.js"></script>
+
+    <!-- Game we want to track -->
+    <script type="text/javascript">
+        var canvasLength = 500;
+        var canvasWidth = 300;
+        var game = new Phaser.Game(canvasLength, canvasWidth, Phaser.AUTO, '', { preload: preload, create: create});
+        var sampleText;
+        var sampleImage;
+        var sampleButton;
+        var moreStyle = { font: "20px Century Gothic", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+        var onClickText;
+
+        function preload(){
+            // add plugins in one of the states e.g. preload or init
+            game.plugins.add(Fabrique.Plugins.Responsiveness);
+
+            game.load.image('square', 'image.png', 24);
+            game.load.image('button', 'Button.png', 10,10);
+
+            //Text which will be displayed when button is clicked
+            onClickText = game.add.responsiveText(0, 0, "Expecto Patronus", moreStyle, Fabrique.PinnedPosition.middleCenter);
+            onClickText.anchor.set(0.5, 0.5);
+            onClickText.visible = false;
+
+        }
+
+        function create(){
+            sampleText = game.add.responsiveText(0, 0, "Look to the Right ", moreStyle, Fabrique.PinnedPosition.topRight);
+            sampleText.anchor.set(1,0);
+
+            sampleImage = game.add.responsiveImage(5, 5, 'square', null, Fabrique.PinnedPosition.bottomRight);
+            sampleImage.anchor.set(1, 1);
+
+            sampleButton = game.add.responsiveButton(0,0, 'button', actionOnClick, this, 2, 1, 0, Fabrique.PinnedPosition.topLeft);
+            sampleButton.anchor.set(0,0);
+        }
+
+
+        function actionOnClick(){
+            onClickText.visible =! onClickText.visible;
+        }
+
+    </script>
+
+</head>
+<body>
+</body>
+</html>

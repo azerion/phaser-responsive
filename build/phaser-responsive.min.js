@@ -3,7 +3,7 @@
  * Adds responsive objects that can be pinned to Phaser!
  *
  * OrangeGames
- * Build at 28-01-2016
+ * Build at 04-02-2016
  * Released under MIT License 
  */
 

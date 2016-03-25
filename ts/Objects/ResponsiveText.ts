@@ -4,6 +4,10 @@ module Fabrique {
 
         public base:Phaser.Point;
 
+        public portraitScalingConfig: ScalingConfig = null;
+
+        public landscapeScalingConfig: ScalingConfig = null;
+
         constructor(game:Phaser.Game, x:number, y:number, text:string, style?:Phaser.PhaserTextStyle, pin:PinnedPosition = PinnedPosition.topLeft) {
             super(game, x, y, text, style);
             this.game.scale.onSizeChange.add(() => this.onResize(), null);
@@ -30,6 +34,24 @@ module Fabrique {
             var g = (<Fabrique.Plugins.ResponsiveGame>this.game).getPinnedBase(this.pinned);
             this.x = this.base.x + g.x;
             this.y = this.base.y + g.y;
+
+            let scalingConfig: ScalingConfig = null;
+            if (this.game.width > this.game.height && this.landscapeScalingConfig !== null) {
+                //landscape
+                scalingConfig = this.landscapeScalingConfig;
+            } else if (this.portraitScalingConfig !== null) {
+                //portrait
+                scalingConfig = this.portraitScalingConfig;
+            }
+
+            if (null !== scalingConfig) {
+                (<Fabrique.Plugins.ResponsiveScaleManager>this.game.scale).scaleObjectDynamicly(
+                    this,
+                    scalingConfig.percentage,
+                    scalingConfig.percentageOfWidth,
+                    scalingConfig.scaleAnyway
+                );
+            }
         }
 
         public destroy(destroyChildren?:boolean) {
@@ -37,6 +59,20 @@ module Fabrique {
 
             this.base = null;
             this.pinned = null;
+            this.landscapeScalingConfig = null;
+            this.portraitScalingConfig = null;
+        }
+
+        public setPortraitScaling(percentage: number, percentageOfWidth: boolean = true, scaleAnyway: boolean = false): void {
+            this.portraitScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
+
+            this.onResize();
+        }
+
+        public setLandscapeScaling(percentage: number, percentageOfWidth: boolean = true, scaleAnyway: boolean = false): void {
+            this.landscapeScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
+
+            this.onResize();
         }
     }
 }

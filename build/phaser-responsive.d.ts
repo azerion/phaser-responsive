@@ -1,8 +1,12 @@
 declare module Fabrique {
     interface IResponsiveObject {
+        portraitScalingConfig: ScalingConfig;
+        landscapeScalingConfig: ScalingConfig;
         pinned: PinnedPosition;
         base: Phaser.Point;
         setPinned: (pin: PinnedPosition, x?: number, y?: number) => void;
+        setPortraitScaling: (percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean) => void;
+        setLandscapeScaling: (percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean) => void;
         onResize: () => void;
         destroy: (destroyChilderen: boolean) => void;
     }
@@ -11,50 +15,70 @@ declare module Fabrique {
     class ResponsiveButton extends Phaser.Button implements IResponsiveObject {
         pinned: PinnedPosition;
         base: Phaser.Point;
+        portraitScalingConfig: ScalingConfig;
+        landscapeScalingConfig: ScalingConfig;
         constructor(game: Phaser.Game, x?: number, y?: number, key?: string, callback?: Function, callbackContext?: any, overFrame?: string | number, outFrame?: string | number, downFrame?: string | number, upFrame?: string | number, pin?: PinnedPosition);
         setPinned(pin: PinnedPosition, x?: number, y?: number): void;
         onResize(): void;
         destroy(destroyChildren?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
     }
 }
 declare module Fabrique {
     class ResponsiveGroup extends Phaser.Group implements IResponsiveObject {
         pinned: PinnedPosition;
         base: Phaser.Point;
+        portraitScalingConfig: ScalingConfig;
+        landscapeScalingConfig: ScalingConfig;
         constructor(game: Phaser.Game, parent?: PIXI.DisplayObjectContainer, name?: string, addToStage?: boolean, enableBody?: boolean, physicsBodyType?: number, x?: number, y?: number, pin?: PinnedPosition);
         setPinned(pin: PinnedPosition, x?: number, y?: number): void;
         onResize(): void;
         destroy(destroyChildren?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
     }
 }
 declare module Fabrique {
     class ResponsiveImage extends Phaser.Image implements IResponsiveObject {
         pinned: PinnedPosition;
         base: Phaser.Point;
+        portraitScalingConfig: ScalingConfig;
+        landscapeScalingConfig: ScalingConfig;
         constructor(game: Phaser.Game, x: number, y: number, key: string | Phaser.RenderTexture | Phaser.BitmapData | PIXI.Texture, frame?: string | number, pin?: PinnedPosition);
         setPinned(pin: PinnedPosition, x?: number, y?: number): void;
         onResize(): void;
         destroy(destroyChildren?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
     }
 }
 declare module Fabrique {
     class ResponsiveSprite extends Phaser.Sprite implements IResponsiveObject {
         pinned: PinnedPosition;
         base: Phaser.Point;
+        portraitScalingConfig: ScalingConfig;
+        landscapeScalingConfig: ScalingConfig;
         constructor(game: Phaser.Game, x: number, y: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | PIXI.Texture, frame?: string | number, pin?: PinnedPosition);
         setPinned(pin: PinnedPosition, x?: number, y?: number): void;
         onResize(): void;
         destroy(destroyChildren?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
     }
 }
 declare module Fabrique {
     class ResponsiveText extends Phaser.Text implements IResponsiveObject {
         pinned: PinnedPosition;
         base: Phaser.Point;
+        portraitScalingConfig: ScalingConfig;
+        landscapeScalingConfig: ScalingConfig;
         constructor(game: Phaser.Game, x: number, y: number, text: string, style?: Phaser.PhaserTextStyle, pin?: PinnedPosition);
         setPinned(pin: PinnedPosition, x?: number, y?: number): void;
         onResize(): void;
         destroy(destroyChildren?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
     }
 }
 declare module Fabrique {
@@ -112,5 +136,13 @@ declare module Fabrique {
             addResponsiveFactory(): void;
             addResponsiveCreator(): void;
         }
+    }
+}
+declare module Fabrique {
+    class ScalingConfig {
+        percentage: number;
+        percentageOfWidth: boolean;
+        scaleAnyway: boolean;
+        constructor(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean);
     }
 }

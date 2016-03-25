@@ -53,6 +53,9 @@ sampleImage.anchor.set(1, 1);
 
 Changelog
 ---------
+### 1.2.0
+* objects can now store their portrait/landscape special scaling values
+
 ### 1.1.0
 * Added static dynamic scaling method
 

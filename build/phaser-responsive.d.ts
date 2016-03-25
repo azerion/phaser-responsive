@@ -87,7 +87,10 @@ declare module Fabrique {
             responsiveButton: (x?: number, y?: number, key?: string, callback?: Function, callbackContext?: any, overFrame?: string | number, outFrame?: string | number, downFrame?: string | number, upFrame?: string | number, pin?: PinnedPosition) => Fabrique.ResponsiveButton;
             responsiveSprite: (x: number, y: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | PIXI.Texture, frame?: string | number, pin?: PinnedPosition) => Fabrique.ResponsiveSprite;
             responsiveText: (x: number, y: number, text: string, style?: Phaser.PhaserTextStyle, pin?: PinnedPosition) => Fabrique.ResponsiveText;
-            responsiveGroup: (parent?: PIXI.DisplayObjectContainer, name?: string, addToStage?: boolean, enableBody?: boolean, physicsBodyType?: number, x?: number, y?: number, pin?: PinnedPosition) => Fabrique.ResponsiveGroup;
+            responsiveGroup: (parent?: PIXI.Sprite, name?: string, addToStage?: boolean, enableBody?: boolean, physicsBodyType?: number, x?: number, y?: number, pin?: PinnedPosition) => Fabrique.ResponsiveGroup;
+        }
+        interface ResponsiveScaleManager extends Phaser.ScaleManager {
+            scaleObjectDynamicly: (image: PIXI.Sprite | PIXI.DisplayObjectContainer, percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean) => void;
         }
         /**
          * We overwrite the default Phaser.Game to expose the events to the game object, this is purely for typescript
@@ -96,6 +99,7 @@ declare module Fabrique {
             getPinnedBase: (pinned: PinnedPosition) => Phaser.Point;
             add: ResponsiveObjectFactory;
             make: ResponsiveObjectCreator;
+            scale: ResponsiveScaleManager;
         }
         /**
          * GameEvents plugin, adds the events from the PortalEvents interface to the game
@@ -104,6 +108,7 @@ declare module Fabrique {
          */
         class Responsiveness extends Phaser.Plugin {
             constructor(game: ResponsiveGame, parent: PIXI.DisplayObject);
+            addResponsiveScaleManager(): void;
             addResponsiveFactory(): void;
             addResponsiveCreator(): void;
         }

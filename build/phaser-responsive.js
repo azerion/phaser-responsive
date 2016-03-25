@@ -1,9 +1,9 @@
 /*!
- * phaser-responsive - version 1.0.0 
+ * phaser-responsive - version 1.1.0 
  * Adds responsive objects that can be pinned to Phaser!
  *
  * OrangeGames
- * Build at 04-02-2016
+ * Build at 25-03-2016
  * Released under MIT License 
  */
 
@@ -255,7 +255,47 @@ var Fabrique;
                 }
                 this.addResponsiveFactory();
                 this.addResponsiveCreator();
+                this.addResponsiveScaleManager();
             }
+            Responsiveness.prototype.addResponsiveScaleManager = function () {
+                Phaser.ScaleManager.prototype.scaleObjectDynamicly = function (object, percentage, percentageOfWidth, scaleAnyway) {
+                    if (percentageOfWidth === void 0) { percentageOfWidth = true; }
+                    if (scaleAnyway === void 0) { scaleAnyway = false; }
+                    if (this.game.device.desktop && !scaleAnyway) {
+                        return;
+                    }
+                    //reset scale
+                    object.scale.set(1, 1);
+                    //make image always the passet percentage of the game screen
+                    var newWidth;
+                    var newHeight;
+                    var scaleFactor;
+                    if (percentageOfWidth) {
+                        //image should be specific percentage of width
+                        newWidth = (this.game.width * percentage) / 100;
+                        scaleFactor = newWidth / object.width;
+                        //if height became too big, use biggest possible height
+                        newHeight = (object.height) * scaleFactor;
+                        if (newHeight > this.game.height) {
+                            scaleFactor = (this.game.height - 10) / object.height;
+                        } //10 extra pixles so the image won't get cramped
+                        //set scale
+                        object.scale.set(scaleFactor, scaleFactor);
+                    }
+                    else {
+                        //image should be specific percentage of heigth
+                        newHeight = (this.game.height * percentage) / 100;
+                        scaleFactor = newHeight / object.height;
+                        //if width became too big, use biggest possible width
+                        newWidth = (object.width) * scaleFactor;
+                        if (newWidth > this.game.width) {
+                            scaleFactor = (this.game.width - 10) / object.width;
+                        } //10 extra pixles so the image won't get cramped
+                        //set scale
+                        object.scale.set(scaleFactor, scaleFactor);
+                    }
+                };
+            };
             Responsiveness.prototype.addResponsiveFactory = function () {
                 //For the image
                 Phaser.GameObjectFactory.prototype.responsiveImage = function (x, y, key, frame, pin, group) {

@@ -15,7 +15,11 @@ module Fabrique {
             responsiveButton: (x?:number, y?:number, key?:string, callback?:Function, callbackContext?:any, overFrame?:string | number, outFrame?:string | number, downFrame?:string | number, upFrame?:string | number, pin?:PinnedPosition) => Fabrique.ResponsiveButton;
             responsiveSprite: (x:number, y:number, key?:string | Phaser.RenderTexture | Phaser.BitmapData | PIXI.Texture, frame?:string | number, pin?:PinnedPosition) => Fabrique.ResponsiveSprite;
             responsiveText: (x:number, y:number, text:string, style?:Phaser.PhaserTextStyle, pin?:PinnedPosition) => Fabrique.ResponsiveText;
-            responsiveGroup: (parent?:PIXI.DisplayObjectContainer, name?:string, addToStage?:boolean, enableBody?:boolean, physicsBodyType?:number, x?:number, y?:number, pin?:PinnedPosition) => Fabrique.ResponsiveGroup;
+            responsiveGroup: (parent?:PIXI.Sprite, name?:string, addToStage?:boolean, enableBody?:boolean, physicsBodyType?:number, x?:number, y?:number, pin?:PinnedPosition) => Fabrique.ResponsiveGroup;
+        }
+
+        export interface ResponsiveScaleManager extends Phaser.ScaleManager {
+            scaleObjectDynamicly: (image: PIXI.Sprite | PIXI.DisplayObjectContainer, percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean) => void;
         }
 
         /**
@@ -25,6 +29,7 @@ module Fabrique {
             getPinnedBase: (pinned:PinnedPosition) => Phaser.Point;
             add: ResponsiveObjectFactory;
             make: ResponsiveObjectCreator;
+            scale: ResponsiveScaleManager;
         }
 
 
@@ -39,7 +44,7 @@ module Fabrique {
 
                 if (!game.hasOwnProperty('getPinnedBase')) {
                     Object.defineProperty(game, 'getPinnedBase', {
-                        value: (pinned:PinnedPosition):Phaser.Point => {
+                        value: (pinned: PinnedPosition): Phaser.Point => {
                             switch (pinned) {
                                 case PinnedPosition.topLeft:
                                     return new Phaser.Point(0, 0);
@@ -68,6 +73,44 @@ module Fabrique {
 
                 this.addResponsiveFactory();
                 this.addResponsiveCreator();
+                this.addResponsiveScaleManager();
+            }
+
+            public addResponsiveScaleManager(): void {
+                (<Fabrique.Plugins.ResponsiveScaleManager>Phaser.ScaleManager.prototype).scaleObjectDynamicly = function(object: PIXI.Sprite | PIXI.DisplayObjectContainer, percentage: number, percentageOfWidth: boolean = true, scaleAnyway: boolean = false): void {
+                    if (this.game.device.desktop && !scaleAnyway) {
+                        return;
+                    }
+                    //reset scale
+                    object.scale.set(1, 1);
+                    //make image always the passet percentage of the game screen
+                    let newWidth: number;
+                    let newHeight: number;
+                    let scaleFactor: number;
+                    if (percentageOfWidth) {
+                        //image should be specific percentage of width
+                        newWidth = (this.game.width * percentage) / 100;
+                        scaleFactor = newWidth / object.width;
+                        //if height became too big, use biggest possible height
+                        newHeight = (object.height) * scaleFactor;
+                        if (newHeight > this.game.height) {
+                            scaleFactor = (this.game.height - 10) / object.height;
+                        } //10 extra pixles so the image won't get cramped
+                        //set scale
+                        object.scale.set(scaleFactor, scaleFactor);
+                    } else {
+                        //image should be specific percentage of heigth
+                        newHeight = (this.game.height * percentage) / 100;
+                        scaleFactor = newHeight / object.height;
+                        //if width became too big, use biggest possible width
+                        newWidth = (object.width) * scaleFactor;
+                        if (newWidth > this.game.width) {
+                            scaleFactor = (this.game.width - 10) / object.width;
+                        } //10 extra pixles so the image won't get cramped
+                        //set scale
+                        object.scale.set(scaleFactor, scaleFactor);
+                    }
+                };
             }
 
             public addResponsiveFactory() {

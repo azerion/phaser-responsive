@@ -53,6 +53,9 @@ sampleImage.anchor.set(1, 1);
 
 Changelog
 ---------
+### 1.1.0
+* Added static dynamic scaling method
+
 ### 1.0.1
 * Initial release
 

@@ -55,7 +55,7 @@ sampleImage.anchor.set(1, 1);
 ### Set scaling for objects
 
 By setting the landscape/portrait scaling for an object, the object will be scaled a certain percentage of the width or height of the total game. 
-By default the width will be used, if you want the object to scale according to the height, you can pass the seccond parameter as false.
+By default the width will be used, if you want the object to scale according to the height, you can pass the second parameter as false.
 The scaling will only be done on mobile, if you want the objects to be scaled when your game is running on desktop you can pass the third parameter as true.
 
 In the next example the sampleImage will always be 50% of the game width in landscape and 50% of the game height in portrait.

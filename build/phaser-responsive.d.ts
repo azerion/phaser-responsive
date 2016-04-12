@@ -21,8 +21,8 @@ declare module Fabrique {
         setPinned(pin: PinnedPosition, x?: number, y?: number): void;
         onResize(): void;
         destroy(destroyChildren?: boolean): void;
-        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
-        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
     }
 }
 declare module Fabrique {
@@ -35,8 +35,8 @@ declare module Fabrique {
         setPinned(pin: PinnedPosition, x?: number, y?: number): void;
         onResize(): void;
         destroy(destroyChildren?: boolean): void;
-        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
-        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
     }
 }
 declare module Fabrique {
@@ -49,8 +49,8 @@ declare module Fabrique {
         setPinned(pin: PinnedPosition, x?: number, y?: number): void;
         onResize(): void;
         destroy(destroyChildren?: boolean): void;
-        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
-        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
     }
 }
 declare module Fabrique {
@@ -63,8 +63,8 @@ declare module Fabrique {
         setPinned(pin: PinnedPosition, x?: number, y?: number): void;
         onResize(): void;
         destroy(destroyChildren?: boolean): void;
-        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
-        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
     }
 }
 declare module Fabrique {
@@ -77,8 +77,8 @@ declare module Fabrique {
         setPinned(pin: PinnedPosition, x?: number, y?: number): void;
         onResize(): void;
         destroy(destroyChildren?: boolean): void;
-        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
-        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
     }
 }
 declare module Fabrique {
@@ -143,6 +143,9 @@ declare module Fabrique {
         percentage: number;
         percentageOfWidth: boolean;
         scaleAnyway: boolean;
-        constructor(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean);
+        pinnedPosition: Fabrique.PinnedPosition;
+        x: number;
+        y: number;
+        constructor(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number);
     }
 }

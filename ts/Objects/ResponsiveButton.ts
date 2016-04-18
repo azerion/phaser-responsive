@@ -69,12 +69,15 @@ module Fabrique {
         }
 
         public setPortraitScaling(percentage: number, percentageOfWidth: boolean = true, scaleAnyway: boolean = false, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void {
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+
+            if (pinnedPosition) {
                 this.portraitScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            } else if (pinnedPosition && pinnedX) {
-                this.portraitScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            } else if (pinnedPosition) {
-                this.portraitScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             } else {
                 this.portraitScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
             }
@@ -83,12 +86,15 @@ module Fabrique {
         }
 
         public setLandscapeScaling(percentage: number, percentageOfWidth: boolean = true, scaleAnyway: boolean = false, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void {
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+
+            if (pinnedPosition) {
                 this.landscapeScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            } else if (pinnedPosition && pinnedX) {
-                this.landscapeScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            } else if (pinnedPosition) {
-                this.landscapeScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             } else {
                 this.landscapeScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
             }

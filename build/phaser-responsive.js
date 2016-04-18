@@ -1,9 +1,9 @@
 /*!
- * phaser-responsive - version 1.3.0 
+ * phaser-responsive - version 1.3.1 
  * Adds responsive objects that can be pinned to Phaser!
  *
  * OrangeGames
- * Build at 12-04-2016
+ * Build at 18-04-2016
  * Released under MIT License 
  */
 
@@ -66,14 +66,14 @@ var Fabrique;
         ResponsiveButton.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else if (pinnedPosition && pinnedX) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            }
-            else if (pinnedPosition) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             }
             else {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
@@ -83,14 +83,14 @@ var Fabrique;
         ResponsiveButton.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else if (pinnedPosition && pinnedX) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            }
-            else if (pinnedPosition) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             }
             else {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
@@ -155,14 +155,14 @@ var Fabrique;
         ResponsiveGroup.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else if (pinnedPosition && pinnedX) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            }
-            else if (pinnedPosition) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             }
             else {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
@@ -172,14 +172,14 @@ var Fabrique;
         ResponsiveGroup.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else if (pinnedPosition && pinnedX) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            }
-            else if (pinnedPosition) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             }
             else {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
@@ -244,14 +244,14 @@ var Fabrique;
         ResponsiveImage.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else if (pinnedPosition && pinnedX) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            }
-            else if (pinnedPosition) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             }
             else {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
@@ -261,14 +261,14 @@ var Fabrique;
         ResponsiveImage.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else if (pinnedPosition && pinnedX) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            }
-            else if (pinnedPosition) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             }
             else {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
@@ -333,14 +333,14 @@ var Fabrique;
         ResponsiveSprite.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else if (pinnedPosition && pinnedX) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            }
-            else if (pinnedPosition) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             }
             else {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
@@ -350,14 +350,14 @@ var Fabrique;
         ResponsiveSprite.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else if (pinnedPosition && pinnedX) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            }
-            else if (pinnedPosition) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             }
             else {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
@@ -422,14 +422,14 @@ var Fabrique;
         ResponsiveText.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else if (pinnedPosition && pinnedX) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            }
-            else if (pinnedPosition) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             }
             else {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
@@ -439,14 +439,14 @@ var Fabrique;
         ResponsiveText.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (pinnedPosition && pinnedX && pinnedY) {
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else if (pinnedPosition && pinnedX) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX);
-            }
-            else if (pinnedPosition) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition);
             }
             else {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);

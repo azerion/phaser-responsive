@@ -90,6 +90,9 @@ module Fabrique {
                     if (percentageOfWidth) {
                         //image should be specific percentage of width
                         newWidth = (this.game.width * percentage) / 100;
+                        if (object.width === 0) {
+                            console.warn('Phaser-Responsive; can not set scale, object has a width of 0', object);
+                        }
                         scaleFactor = newWidth / object.width;
                         //if height became too big, use biggest possible height
                         newHeight = (object.height) * scaleFactor;
@@ -101,6 +104,9 @@ module Fabrique {
                     } else {
                         //image should be specific percentage of heigth
                         newHeight = (this.game.height * percentage) / 100;
+                        if (object.height === 0) {
+                            console.warn('Phaser-Responsive; can not set scale, object has a height of 0', object);
+                        }
                         scaleFactor = newHeight / object.height;
                         //if width became too big, use biggest possible width
                         newWidth = (object.width) * scaleFactor;

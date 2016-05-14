@@ -1,5 +1,5 @@
 /*!
- * phaser-responsive - version 1.3.2 
+ * phaser-responsive - version 1.3.3 
  * Adds responsive objects that can be pinned to Phaser!
  *
  * OrangeGames
@@ -139,7 +139,9 @@ var Fabrique;
                 this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
                 var scale = this.scale;
                 this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                this.pinned = scalingConfig.pinnedPosition;
+                if (scalingConfig.pinnedPosition !== undefined) {
+                    this.pinned = scalingConfig.pinnedPosition;
+                }
             }
             var g = this.game.getPinnedBase(this.pinned);
             this.x = this.base.x + g.x;
@@ -161,7 +163,7 @@ var Fabrique;
             if (!pinnedY) {
                 pinnedY = 0;
             }
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             }
             else {
@@ -178,7 +180,7 @@ var Fabrique;
             if (!pinnedY) {
                 pinnedY = 0;
             }
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             }
             else {
@@ -228,7 +230,9 @@ var Fabrique;
                 this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
                 var scale = this.scale;
                 this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                this.pinned = scalingConfig.pinnedPosition;
+                if (scalingConfig.pinnedPosition !== undefined) {
+                    this.pinned = scalingConfig.pinnedPosition;
+                }
             }
             var g = this.game.getPinnedBase(this.pinned);
             this.x = this.base.x + g.x;
@@ -250,7 +254,7 @@ var Fabrique;
             if (!pinnedY) {
                 pinnedY = 0;
             }
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             }
             else {
@@ -267,7 +271,7 @@ var Fabrique;
             if (!pinnedY) {
                 pinnedY = 0;
             }
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             }
             else {
@@ -317,7 +321,9 @@ var Fabrique;
                 this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
                 var scale = this.scale;
                 this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                this.pinned = scalingConfig.pinnedPosition;
+                if (scalingConfig.pinnedPosition !== undefined) {
+                    this.pinned = scalingConfig.pinnedPosition;
+                }
             }
             var g = this.game.getPinnedBase(this.pinned);
             this.x = this.base.x + g.x;
@@ -339,7 +345,7 @@ var Fabrique;
             if (!pinnedY) {
                 pinnedY = 0;
             }
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             }
             else {
@@ -356,7 +362,7 @@ var Fabrique;
             if (!pinnedY) {
                 pinnedY = 0;
             }
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             }
             else {
@@ -406,7 +412,9 @@ var Fabrique;
                 this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
                 var scale = this.scale;
                 this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                this.pinned = scalingConfig.pinnedPosition;
+                if (scalingConfig.pinnedPosition !== undefined) {
+                    this.pinned = scalingConfig.pinnedPosition;
+                }
             }
             var g = this.game.getPinnedBase(this.pinned);
             this.x = this.base.x + g.x;
@@ -428,7 +436,7 @@ var Fabrique;
             if (!pinnedY) {
                 pinnedY = 0;
             }
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             }
             else {
@@ -445,7 +453,7 @@ var Fabrique;
             if (!pinnedY) {
                 pinnedY = 0;
             }
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             }
             else {
@@ -495,7 +503,9 @@ var Fabrique;
                 this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
                 var scale = this.scale;
                 this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                this.pinned = scalingConfig.pinnedPosition;
+                if (scalingConfig.pinnedPosition !== undefined) {
+                    this.pinned = scalingConfig.pinnedPosition;
+                }
             }
             var g = this.game.getPinnedBase(this.pinned);
             this.x = this.base.x + g.x;
@@ -517,7 +527,7 @@ var Fabrique;
             if (!pinnedY) {
                 pinnedY = 0;
             }
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             }
             else {
@@ -534,7 +544,7 @@ var Fabrique;
             if (!pinnedY) {
                 pinnedY = 0;
             }
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             }
             else {
@@ -627,6 +637,9 @@ var Fabrique;
                     if (percentageOfWidth) {
                         //image should be specific percentage of width
                         newWidth = (this.game.width * percentage) / 100;
+                        if (object.width === 0) {
+                            console.warn('Phaser-Responsive; can not set scale, object has a width of 0', object);
+                        }
                         scaleFactor = newWidth / object.width;
                         //if height became too big, use biggest possible height
                         newHeight = (object.height) * scaleFactor;
@@ -639,6 +652,9 @@ var Fabrique;
                     else {
                         //image should be specific percentage of heigth
                         newHeight = (this.game.height * percentage) / 100;
+                        if (object.height === 0) {
+                            console.warn('Phaser-Responsive; can not set scale, object has a height of 0', object);
+                        }
                         scaleFactor = newHeight / object.height;
                         //if width became too big, use biggest possible width
                         newWidth = (object.width) * scaleFactor;
@@ -728,13 +744,13 @@ var Fabrique;
         function ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
             if (percentageOfWidth === void 0) { percentageOfWidth = true; }
             if (scaleAnyway === void 0) { scaleAnyway = false; }
-            this.pinnedPosition = Fabrique.PinnedPosition.topLeft;
+            this.pinnedPosition = undefined;
             this.x = 0;
             this.y = 0;
             this.percentage = percentage;
             this.percentageOfWidth = percentageOfWidth;
             this.scaleAnyway = scaleAnyway;
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.pinnedPosition = pinnedPosition;
             }
             if (pinnedX) {

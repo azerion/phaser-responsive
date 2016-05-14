@@ -1,9 +1,9 @@
 /*!
- * phaser-responsive - version 1.3.1 
+ * phaser-responsive - version 1.3.2 
  * Adds responsive objects that can be pinned to Phaser!
  *
  * OrangeGames
- * Build at 18-04-2016
+ * Build at 14-05-2016
  * Released under MIT License 
  */
 
@@ -12,6 +12,95 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
+var Fabrique;
+(function (Fabrique) {
+    var ResponsiveBitmapText = (function (_super) {
+        __extends(ResponsiveBitmapText, _super);
+        function ResponsiveBitmapText(game, x, y, font, text, size, align, pin) {
+            var _this = this;
+            if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
+            _super.call(this, game, x, y, font, text, size, align);
+            this.portraitScalingConfig = null;
+            this.landscapeScalingConfig = null;
+            this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
+            this.base = new Phaser.Point(x || 0, y || 0);
+            this.setPinned(pin);
+        }
+        ResponsiveBitmapText.prototype.setPinned = function (pin, x, y) {
+            if (undefined !== x && undefined !== y) {
+                this.base = new Phaser.Point(x, y);
+            }
+            this.pinned = pin;
+            this.onResize();
+        };
+        ResponsiveBitmapText.prototype.onResize = function () {
+            if (this.game === null) {
+                return;
+            }
+            var scalingConfig = null;
+            if (this.game.width > this.game.height && this.landscapeScalingConfig !== null) {
+                //landscape
+                scalingConfig = this.landscapeScalingConfig;
+            }
+            else if (this.portraitScalingConfig !== null) {
+                //portrait
+                scalingConfig = this.portraitScalingConfig;
+            }
+            if (null !== scalingConfig) {
+                this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
+                var scale = this.scale;
+                this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
+                this.pinned = scalingConfig.pinnedPosition;
+            }
+            var g = this.game.getPinnedBase(this.pinned);
+            this.x = this.base.x + g.x;
+            this.y = this.base.y + g.y;
+        };
+        ResponsiveBitmapText.prototype.destroy = function (destroyChildren) {
+            _super.prototype.destroy.call(this, destroyChildren);
+            this.base = null;
+            this.pinned = null;
+            this.landscapeScalingConfig = null;
+            this.portraitScalingConfig = null;
+        };
+        ResponsiveBitmapText.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
+            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
+            if (scaleAnyway === void 0) { scaleAnyway = false; }
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
+                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
+            }
+            else {
+                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
+            }
+            this.onResize();
+        };
+        ResponsiveBitmapText.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
+            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
+            if (scaleAnyway === void 0) { scaleAnyway = false; }
+            if (!pinnedX) {
+                pinnedX = 0;
+            }
+            if (!pinnedY) {
+                pinnedY = 0;
+            }
+            if (pinnedPosition) {
+                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
+            }
+            else {
+                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
+            }
+            this.onResize();
+        };
+        return ResponsiveBitmapText;
+    })(Phaser.BitmapText);
+    Fabrique.ResponsiveBitmapText = ResponsiveBitmapText;
+})(Fabrique || (Fabrique = {}));
 var Fabrique;
 (function (Fabrique) {
     var ResponsiveButton = (function (_super) {
@@ -590,6 +679,13 @@ var Fabrique;
                     }
                     return group.add(new Fabrique.ResponsiveText(this.game, x, y, text, style, pin));
                 };
+                //for the BitmapText
+                Phaser.GameObjectFactory.prototype.responsiveBitmapText = function (x, y, font, text, size, align, pin, group) {
+                    if (group === undefined) {
+                        group = this.world;
+                    }
+                    return group.add(new Fabrique.ResponsiveBitmapText(this.game, x, y, font, text, size, align, pin));
+                };
                 //for the group
                 Phaser.GameObjectFactory.prototype.responsiveGroup = function (parent, name, addToStage, enableBody, physicsBodyType, x, y, pin) {
                     return new Fabrique.ResponsiveGroup(this.game, parent, name, addToStage, enableBody, physicsBodyType, x, y, pin);
@@ -612,7 +708,11 @@ var Fabrique;
                 Phaser.GameObjectCreator.prototype.responsiveText = function (x, y, text, style, pin) {
                     return new Fabrique.ResponsiveText(this.game, x, y, text, style, pin);
                 };
-                //for the text
+                //for the BitmapText
+                Phaser.GameObjectCreator.prototype.responsiveBitmapText = function (x, y, font, text, size, align, pin) {
+                    return new Fabrique.ResponsiveBitmapText(this.game, x, y, font, text, size, align, pin);
+                };
+                //for the group
                 Phaser.GameObjectCreator.prototype.responsiveGroup = function (parent, name, addToStage, enableBody, physicsBodyType, x, y, pin) {
                     return new Fabrique.ResponsiveGroup(this.game, parent, name, addToStage, enableBody, physicsBodyType, x, y, pin);
                 };

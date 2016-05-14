@@ -8,6 +8,7 @@ module Fabrique {
             responsiveButton: (x?:number, y?:number, key?:string, callback?:Function, callbackContext?:any, overFrame?:string | number, outFrame?:string | number, downFrame?:string | number, upFrame?:string | number, pin?:PinnedPosition, group?:Phaser.Group) => Fabrique.ResponsiveButton;
             responsiveSprite: (x:number, y:number, key?:string | Phaser.RenderTexture | Phaser.BitmapData | PIXI.Texture, frame?:string | number, pin?:PinnedPosition, group?:Phaser.Group) => Fabrique.ResponsiveSprite;
             responsiveText: (x:number, y:number, text:string, style?:Phaser.PhaserTextStyle, pin?:PinnedPosition, group?:Phaser.Group) => Fabrique.ResponsiveText;
+            responsiveBitmapText: (x: number, y: number, font: string, text?: string, size?: number, align?: string, pin?:PinnedPosition, group?:Phaser.Group) => Fabrique.ResponsiveBitmapText;
             responsiveGroup: (parent?:PIXI.DisplayObjectContainer, name?:string, addToStage?:boolean, enableBody?:boolean, physicsBodyType?:number, x?:number, y?:number, pin?:PinnedPosition) => Fabrique.ResponsiveGroup;
         }
         export interface ResponsiveObjectCreator extends Phaser.GameObjectCreator {
@@ -15,6 +16,7 @@ module Fabrique {
             responsiveButton: (x?:number, y?:number, key?:string, callback?:Function, callbackContext?:any, overFrame?:string | number, outFrame?:string | number, downFrame?:string | number, upFrame?:string | number, pin?:PinnedPosition) => Fabrique.ResponsiveButton;
             responsiveSprite: (x:number, y:number, key?:string | Phaser.RenderTexture | Phaser.BitmapData | PIXI.Texture, frame?:string | number, pin?:PinnedPosition) => Fabrique.ResponsiveSprite;
             responsiveText: (x:number, y:number, text:string, style?:Phaser.PhaserTextStyle, pin?:PinnedPosition) => Fabrique.ResponsiveText;
+            responsiveBitmapText: (x: number, y: number, font: string, text?: string, size?: number, align?: string, pin?:PinnedPosition) => Fabrique.ResponsiveBitmapText;
             responsiveGroup: (parent?:PIXI.Sprite, name?:string, addToStage?:boolean, enableBody?:boolean, physicsBodyType?:number, x?:number, y?:number, pin?:PinnedPosition) => Fabrique.ResponsiveGroup;
         }
 
@@ -150,6 +152,15 @@ module Fabrique {
                     return group.add(new Fabrique.ResponsiveText(this.game, x, y, text, style, pin));
                 };
 
+                //for the BitmapText
+                (<Fabrique.Plugins.ResponsiveObjectFactory>Phaser.GameObjectFactory.prototype).responsiveBitmapText = function (x: number, y: number, font: string, text?: string, size?: number, align?: string, pin?:PinnedPosition, group?:Phaser.Group):Fabrique.ResponsiveBitmapText {
+                    if (group === undefined) {
+                        group = this.world;
+                    }
+
+                    return group.add(new Fabrique.ResponsiveBitmapText(this.game, x, y, font, text, size, align, pin));
+                };
+
                 //for the group
                 (<Fabrique.Plugins.ResponsiveObjectFactory>Phaser.GameObjectFactory.prototype).responsiveGroup = function (parent?:PIXI.DisplayObjectContainer, name?:string, addToStage?:boolean, enableBody?:boolean, physicsBodyType?:number, x?:number, y?:number, pin?:PinnedPosition):Fabrique.ResponsiveGroup {
                     return new Fabrique.ResponsiveGroup(this.game, parent, name, addToStage, enableBody, physicsBodyType, x, y, pin);
@@ -177,7 +188,12 @@ module Fabrique {
                     return new Fabrique.ResponsiveText(this.game, x, y, text, style, pin);
                 };
 
-                //for the text
+                //for the BitmapText
+                (<Fabrique.Plugins.ResponsiveObjectCreator>Phaser.GameObjectCreator.prototype).responsiveBitmapText = function (x: number, y: number, font: string, text?: string, size?: number, align?: string, pin?:PinnedPosition):Fabrique.ResponsiveBitmapText {
+                    return new Fabrique.ResponsiveBitmapText(this.game, x, y, font, text, size, align, pin);
+                };
+
+                //for the group
                 (<Fabrique.Plugins.ResponsiveObjectCreator>Phaser.GameObjectCreator.prototype).responsiveGroup = function (parent?:PIXI.DisplayObjectContainer, name?:string, addToStage?:boolean, enableBody?:boolean, physicsBodyType?:number, x?:number, y?:number, pin?:PinnedPosition):Fabrique.ResponsiveGroup {
                     return new Fabrique.ResponsiveGroup(this.game, parent, name, addToStage, enableBody, physicsBodyType, x, y, pin);
                 };

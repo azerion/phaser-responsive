@@ -12,6 +12,20 @@ declare module Fabrique {
     }
 }
 declare module Fabrique {
+    class ResponsiveBitmapText extends Phaser.BitmapText implements IResponsiveObject {
+        pinned: PinnedPosition;
+        base: Phaser.Point;
+        portraitScalingConfig: ScalingConfig;
+        landscapeScalingConfig: ScalingConfig;
+        constructor(game: Phaser.Game, x: number, y: number, font: string, text?: string, size?: number, align?: string, pin?: PinnedPosition);
+        setPinned(pin: PinnedPosition, x?: number, y?: number): void;
+        onResize(): void;
+        destroy(destroyChildren?: boolean): void;
+        setPortraitScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
+        setLandscapeScaling(percentage: number, percentageOfWidth?: boolean, scaleAnyway?: boolean, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number): void;
+    }
+}
+declare module Fabrique {
     class ResponsiveButton extends Phaser.Button implements IResponsiveObject {
         pinned: PinnedPosition;
         base: Phaser.Point;
@@ -104,6 +118,7 @@ declare module Fabrique {
             responsiveButton: (x?: number, y?: number, key?: string, callback?: Function, callbackContext?: any, overFrame?: string | number, outFrame?: string | number, downFrame?: string | number, upFrame?: string | number, pin?: PinnedPosition, group?: Phaser.Group) => Fabrique.ResponsiveButton;
             responsiveSprite: (x: number, y: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | PIXI.Texture, frame?: string | number, pin?: PinnedPosition, group?: Phaser.Group) => Fabrique.ResponsiveSprite;
             responsiveText: (x: number, y: number, text: string, style?: Phaser.PhaserTextStyle, pin?: PinnedPosition, group?: Phaser.Group) => Fabrique.ResponsiveText;
+            responsiveBitmapText: (x: number, y: number, font: string, text?: string, size?: number, align?: string, pin?: PinnedPosition, group?: Phaser.Group) => Fabrique.ResponsiveBitmapText;
             responsiveGroup: (parent?: PIXI.DisplayObjectContainer, name?: string, addToStage?: boolean, enableBody?: boolean, physicsBodyType?: number, x?: number, y?: number, pin?: PinnedPosition) => Fabrique.ResponsiveGroup;
         }
         interface ResponsiveObjectCreator extends Phaser.GameObjectCreator {
@@ -111,6 +126,7 @@ declare module Fabrique {
             responsiveButton: (x?: number, y?: number, key?: string, callback?: Function, callbackContext?: any, overFrame?: string | number, outFrame?: string | number, downFrame?: string | number, upFrame?: string | number, pin?: PinnedPosition) => Fabrique.ResponsiveButton;
             responsiveSprite: (x: number, y: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | PIXI.Texture, frame?: string | number, pin?: PinnedPosition) => Fabrique.ResponsiveSprite;
             responsiveText: (x: number, y: number, text: string, style?: Phaser.PhaserTextStyle, pin?: PinnedPosition) => Fabrique.ResponsiveText;
+            responsiveBitmapText: (x: number, y: number, font: string, text?: string, size?: number, align?: string, pin?: PinnedPosition) => Fabrique.ResponsiveBitmapText;
             responsiveGroup: (parent?: PIXI.Sprite, name?: string, addToStage?: boolean, enableBody?: boolean, physicsBodyType?: number, x?: number, y?: number, pin?: PinnedPosition) => Fabrique.ResponsiveGroup;
         }
         interface ResponsiveScaleManager extends Phaser.ScaleManager {

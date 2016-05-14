@@ -50,7 +50,9 @@ module Fabrique {
 
                 let scale: Phaser.Point = this.scale;
                 this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                this.pinned = scalingConfig.pinnedPosition;
+                if (scalingConfig.pinnedPosition !== undefined) {
+                    this.pinned = scalingConfig.pinnedPosition;
+                }
             }
 
             var g = (<Fabrique.Plugins.ResponsiveGame>this.game).getPinnedBase(this.pinned);
@@ -75,7 +77,7 @@ module Fabrique {
                 pinnedY = 0;
             }
 
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.portraitScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             } else {
                 this.portraitScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
@@ -92,7 +94,7 @@ module Fabrique {
                 pinnedY = 0;
             }
 
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.landscapeScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
             } else {
                 this.landscapeScalingConfig = new ScalingConfig(percentage, percentageOfWidth, scaleAnyway);

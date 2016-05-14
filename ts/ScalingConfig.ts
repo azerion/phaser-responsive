@@ -3,7 +3,7 @@ module Fabrique {
         public percentage: number;
         public percentageOfWidth: boolean;
         public scaleAnyway: boolean;
-        public pinnedPosition: Fabrique.PinnedPosition = Fabrique.PinnedPosition.topLeft;
+        public pinnedPosition: Fabrique.PinnedPosition = undefined;
         public x: number = 0;
         public y: number = 0;
 
@@ -11,7 +11,7 @@ module Fabrique {
             this.percentage = percentage;
             this.percentageOfWidth = percentageOfWidth;
             this.scaleAnyway = scaleAnyway;
-            if (pinnedPosition) {
+            if (pinnedPosition !== undefined) {
                 this.pinnedPosition = pinnedPosition
             }
             if (pinnedX) {

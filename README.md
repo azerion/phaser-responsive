@@ -52,6 +52,11 @@ sampleImage = game.add.responsiveImage(5, 5, 'square', null, Fabrique.PinnedPosi
 sampleImage.anchor.set(1, 1);
 ```
 
+```javascript
+spriteButton = game.add.responsiveButton(5,5, 'leaderboard', this.myCallBack,this,0,0,0,0, Fabrique.PinnedPosition.bottomRight);
+spriteButton.anchor.setTo(1,1);
+```
+
 ### Set scaling for objects
 
 By setting the landscape/portrait scaling for an object, the object will be scaled a certain percentage of the width or height of the total game. 

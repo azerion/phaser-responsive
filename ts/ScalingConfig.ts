@@ -2,24 +2,12 @@ module Fabrique {
     export class ScalingConfig {
         public percentage: number;
         public percentageOfWidth: boolean;
-        public scaleAnyway: boolean;
-        public pinnedPosition: Fabrique.PinnedPosition = undefined;
-        public x: number = 0;
-        public y: number = 0;
+        public scaleDesktop: boolean;
 
-        constructor(percentage: number, percentageOfWidth: boolean = true, scaleAnyway: boolean = false, pinnedPosition?: Fabrique.PinnedPosition, pinnedX?: number, pinnedY?: number) {
+        constructor(percentage: number, percentageOfWidth: boolean = true, scaleDesktop: boolean = false) {
             this.percentage = percentage;
             this.percentageOfWidth = percentageOfWidth;
-            this.scaleAnyway = scaleAnyway;
-            if (pinnedPosition !== undefined) {
-                this.pinnedPosition = pinnedPosition
-            }
-            if (pinnedX) {
-                this.x = pinnedX
-            }
-            if (pinnedY) {
-                this.y = pinnedY
-            }
+            this.scaleDesktop = scaleDesktop;
         }
     }
 }

@@ -1,12 +1,96 @@
 /*!
- * phaser-responsive - version 1.3.3 
+ * phaser-responsive - version 2.0.0 
  * Adds responsive objects that can be pinned to Phaser!
  *
  * OrangeGames
- * Build at 14-05-2016
+ * Build at 18-05-2016
  * Released under MIT License 
  */
 
+var Fabrique;
+(function (Fabrique) {
+    var Responsive;
+    (function (Responsive) {
+        var Position = (function () {
+            function Position() {
+            }
+            Position.prototype.getPositionConfig = function () {
+                if (!this.game.device.desktop) {
+                    if (this.game.width > this.game.height && this.landscapePositionConfig !== null) {
+                        //landscape
+                        return this.landscapePositionConfig;
+                    }
+                    else if (this.game.height > this.game.width && this.portraitPositionConfig !== null) {
+                        //portrait
+                        return this.portraitPositionConfig;
+                    }
+                }
+                return this.basePositionConfig;
+            };
+            Position.prototype.updatePosition = function () {
+                var config = this.getPositionConfig();
+                var g = this.game.getPinnedBase(config.pinnedPosition);
+                this.x = config.x + g.x;
+                this.y = config.y + g.y;
+            };
+            Position.prototype.setPinned = function (pinnedPosition, pinnedX, pinnedY) {
+                this.basePositionConfig = new Fabrique.PinnedConfig(pinnedPosition, pinnedX, pinnedY);
+                this.updatePosition();
+            };
+            Position.prototype.setPortraitPinned = function (pinnedPosition, pinnedX, pinnedY) {
+                this.portraitPositionConfig = new Fabrique.PinnedConfig(pinnedPosition, pinnedX, pinnedY);
+                this.updatePosition();
+            };
+            Position.prototype.setLandscapePinned = function (pinnedPosition, pinnedX, pinnedY) {
+                this.landscapePositionConfig = new Fabrique.PinnedConfig(pinnedPosition, pinnedX, pinnedY);
+                this.updatePosition();
+            };
+            return Position;
+        })();
+        Responsive.Position = Position;
+    })(Responsive = Fabrique.Responsive || (Fabrique.Responsive = {}));
+})(Fabrique || (Fabrique = {}));
+var Fabrique;
+(function (Fabrique) {
+    var Responsive;
+    (function (Responsive) {
+        var Scale = (function () {
+            function Scale() {
+            }
+            Scale.prototype.getScalingConfig = function () {
+                if (!this.game.device.desktop) {
+                    if (this.game.width > this.game.height && this.landscapeScalingConfig !== null) {
+                        //landscape
+                        return this.landscapeScalingConfig;
+                    }
+                    else if (this.game.height > this.game.width && this.portraitScalingConfig !== null) {
+                        //portrait
+                        return this.portraitScalingConfig;
+                    }
+                }
+                return this.baseScaleConfig;
+            };
+            Scale.prototype.updateScaling = function () {
+                var config = this.getScalingConfig();
+                this.game.scale.scaleObjectDynamicly(this, config.percentage, config.percentageOfWidth, config.scaleDesktop);
+            };
+            Scale.prototype.setScaling = function (percentage, percentageOfWidth, scaleDesktop) {
+                this.baseScaleConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleDesktop);
+                this.updateScaling();
+            };
+            Scale.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleDesktop) {
+                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleDesktop);
+                this.updateScaling();
+            };
+            Scale.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleDesktop) {
+                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleDesktop);
+                this.updateScaling();
+            };
+            return Scale;
+        })();
+        Responsive.Scale = Scale;
+    })(Responsive = Fabrique.Responsive || (Fabrique.Responsive = {}));
+})(Fabrique || (Fabrique = {}));
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -14,570 +98,20 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var Fabrique;
 (function (Fabrique) {
-    var ResponsiveBitmapText = (function (_super) {
-        __extends(ResponsiveBitmapText, _super);
-        function ResponsiveBitmapText(game, x, y, font, text, size, align, pin) {
-            var _this = this;
-            if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
-            _super.call(this, game, x, y, font, text, size, align);
-            this.portraitScalingConfig = null;
-            this.landscapeScalingConfig = null;
-            this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
-            this.base = new Phaser.Point(x || 0, y || 0);
-            this.setPinned(pin);
-        }
-        ResponsiveBitmapText.prototype.setPinned = function (pin, x, y) {
-            if (undefined !== x && undefined !== y) {
-                this.base = new Phaser.Point(x, y);
-            }
-            this.pinned = pin;
-            this.onResize();
-        };
-        ResponsiveBitmapText.prototype.onResize = function () {
-            if (this.game === null) {
-                return;
-            }
-            var scalingConfig = null;
-            if (this.game.width > this.game.height && this.landscapeScalingConfig !== null) {
-                //landscape
-                scalingConfig = this.landscapeScalingConfig;
-            }
-            else if (this.portraitScalingConfig !== null) {
-                //portrait
-                scalingConfig = this.portraitScalingConfig;
-            }
-            if (null !== scalingConfig) {
-                this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
-                var scale = this.scale;
-                this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                this.pinned = scalingConfig.pinnedPosition;
-            }
-            var g = this.game.getPinnedBase(this.pinned);
-            this.x = this.base.x + g.x;
-            this.y = this.base.y + g.y;
-        };
-        ResponsiveBitmapText.prototype.destroy = function (destroyChildren) {
-            _super.prototype.destroy.call(this, destroyChildren);
-            this.base = null;
-            this.pinned = null;
-            this.landscapeScalingConfig = null;
-            this.portraitScalingConfig = null;
-        };
-        ResponsiveBitmapText.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        ResponsiveBitmapText.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        return ResponsiveBitmapText;
-    })(Phaser.BitmapText);
-    Fabrique.ResponsiveBitmapText = ResponsiveBitmapText;
-})(Fabrique || (Fabrique = {}));
-var Fabrique;
-(function (Fabrique) {
-    var ResponsiveButton = (function (_super) {
-        __extends(ResponsiveButton, _super);
-        function ResponsiveButton(game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame, pin) {
-            var _this = this;
-            if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
-            _super.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
-            this.portraitScalingConfig = null;
-            this.landscapeScalingConfig = null;
-            this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, this);
-            this.base = new Phaser.Point(x || 0, y || 0);
-            this.setPinned(pin);
-        }
-        ResponsiveButton.prototype.setPinned = function (pin, x, y) {
-            if (undefined !== x && undefined !== y) {
-                this.base = new Phaser.Point(x, y);
-            }
-            this.pinned = pin;
-            this.onResize();
-        };
-        ResponsiveButton.prototype.onResize = function () {
-            if (this.game === null) {
-                return;
-            }
-            var scalingConfig = null;
-            if (this.game.width > this.game.height && this.landscapeScalingConfig !== null) {
-                //landscape
-                scalingConfig = this.landscapeScalingConfig;
-            }
-            else if (this.portraitScalingConfig !== null) {
-                //portrait
-                scalingConfig = this.portraitScalingConfig;
-            }
-            if (null !== scalingConfig) {
-                this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
-                var scale = this.scale;
-                this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                if (scalingConfig.pinnedPosition !== undefined) {
-                    this.pinned = scalingConfig.pinnedPosition;
-                }
-            }
-            var g = this.game.getPinnedBase(this.pinned);
-            this.x = this.base.x + g.x;
-            this.y = this.base.y + g.y;
-        };
-        ResponsiveButton.prototype.destroy = function (destroyChildren) {
-            _super.prototype.destroy.call(this, destroyChildren);
-            this.base = null;
-            this.pinned = null;
-            this.landscapeScalingConfig = null;
-            this.portraitScalingConfig = null;
-        };
-        ResponsiveButton.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition !== undefined) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        ResponsiveButton.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition !== undefined) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        return ResponsiveButton;
-    })(Phaser.Button);
-    Fabrique.ResponsiveButton = ResponsiveButton;
-})(Fabrique || (Fabrique = {}));
-var Fabrique;
-(function (Fabrique) {
-    var ResponsiveGroup = (function (_super) {
-        __extends(ResponsiveGroup, _super);
-        function ResponsiveGroup(game, parent, name, addToStage, enableBody, physicsBodyType, x, y, pin) {
-            var _this = this;
-            if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
-            _super.call(this, game, parent, name, addToStage, enableBody, physicsBodyType);
-            this.portraitScalingConfig = null;
-            this.landscapeScalingConfig = null;
-            this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
-            this.base = new Phaser.Point(x || 0, y || 0);
-            this.setPinned(pin);
-        }
-        ResponsiveGroup.prototype.setPinned = function (pin, x, y) {
-            if (undefined !== x && undefined !== y) {
-                this.base = new Phaser.Point(x, y);
-            }
-            this.pinned = pin;
-            this.onResize();
-        };
-        ResponsiveGroup.prototype.onResize = function () {
-            if (this.game === null) {
-                return;
-            }
-            var scalingConfig = null;
-            if (this.game.width > this.game.height && this.landscapeScalingConfig !== null) {
-                //landscape
-                scalingConfig = this.landscapeScalingConfig;
-            }
-            else if (this.portraitScalingConfig !== null) {
-                //portrait
-                scalingConfig = this.portraitScalingConfig;
-            }
-            if (null !== scalingConfig) {
-                this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
-                var scale = this.scale;
-                this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                if (scalingConfig.pinnedPosition !== undefined) {
-                    this.pinned = scalingConfig.pinnedPosition;
-                }
-            }
-            var g = this.game.getPinnedBase(this.pinned);
-            this.x = this.base.x + g.x;
-            this.y = this.base.y + g.y;
-        };
-        ResponsiveGroup.prototype.destroy = function (destroyChildren) {
-            _super.prototype.destroy.call(this, destroyChildren);
-            this.base = null;
-            this.pinned = null;
-            this.landscapeScalingConfig = null;
-            this.portraitScalingConfig = null;
-        };
-        ResponsiveGroup.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition !== undefined) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        ResponsiveGroup.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition !== undefined) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        return ResponsiveGroup;
-    })(Phaser.Group);
-    Fabrique.ResponsiveGroup = ResponsiveGroup;
-})(Fabrique || (Fabrique = {}));
-var Fabrique;
-(function (Fabrique) {
-    var ResponsiveImage = (function (_super) {
-        __extends(ResponsiveImage, _super);
-        function ResponsiveImage(game, x, y, key, frame, pin) {
-            var _this = this;
-            if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
-            _super.call(this, game, x, y, key, frame);
-            this.portraitScalingConfig = null;
-            this.landscapeScalingConfig = null;
-            this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
-            this.base = new Phaser.Point(x || 0, y || 0);
-            this.setPinned(pin);
-        }
-        ResponsiveImage.prototype.setPinned = function (pin, x, y) {
-            if (undefined !== x && undefined !== y) {
-                this.base = new Phaser.Point(x, y);
-            }
-            this.pinned = pin;
-            this.onResize();
-        };
-        ResponsiveImage.prototype.onResize = function () {
-            if (this.game === null) {
-                return;
-            }
-            var scalingConfig = null;
-            if (this.game.width > this.game.height && this.landscapeScalingConfig !== null) {
-                //landscape
-                scalingConfig = this.landscapeScalingConfig;
-            }
-            else if (this.portraitScalingConfig !== null) {
-                //portrait
-                scalingConfig = this.portraitScalingConfig;
-            }
-            if (null !== scalingConfig) {
-                this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
-                var scale = this.scale;
-                this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                if (scalingConfig.pinnedPosition !== undefined) {
-                    this.pinned = scalingConfig.pinnedPosition;
-                }
-            }
-            var g = this.game.getPinnedBase(this.pinned);
-            this.x = this.base.x + g.x;
-            this.y = this.base.y + g.y;
-        };
-        ResponsiveImage.prototype.destroy = function (destroyChildren) {
-            _super.prototype.destroy.call(this, destroyChildren);
-            this.base = null;
-            this.pinned = null;
-            this.landscapeScalingConfig = null;
-            this.portraitScalingConfig = null;
-        };
-        ResponsiveImage.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition !== undefined) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        ResponsiveImage.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition !== undefined) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        return ResponsiveImage;
-    })(Phaser.Image);
-    Fabrique.ResponsiveImage = ResponsiveImage;
-})(Fabrique || (Fabrique = {}));
-var Fabrique;
-(function (Fabrique) {
-    var ResponsiveSprite = (function (_super) {
-        __extends(ResponsiveSprite, _super);
-        function ResponsiveSprite(game, x, y, key, frame, pin) {
-            var _this = this;
-            if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
-            _super.call(this, game, x, y, key, frame);
-            this.portraitScalingConfig = null;
-            this.landscapeScalingConfig = null;
-            this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
-            this.base = new Phaser.Point(x || 0, y || 0);
-            this.setPinned(pin);
-        }
-        ResponsiveSprite.prototype.setPinned = function (pin, x, y) {
-            if (undefined !== x && undefined !== y) {
-                this.base = new Phaser.Point(x, y);
-            }
-            this.pinned = pin;
-            this.onResize();
-        };
-        ResponsiveSprite.prototype.onResize = function () {
-            if (this.game === null) {
-                return;
-            }
-            var scalingConfig = null;
-            if (this.game.width > this.game.height && this.landscapeScalingConfig !== null) {
-                //landscape
-                scalingConfig = this.landscapeScalingConfig;
-            }
-            else if (this.portraitScalingConfig !== null) {
-                //portrait
-                scalingConfig = this.portraitScalingConfig;
-            }
-            if (null !== scalingConfig) {
-                this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
-                var scale = this.scale;
-                this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                if (scalingConfig.pinnedPosition !== undefined) {
-                    this.pinned = scalingConfig.pinnedPosition;
-                }
-            }
-            var g = this.game.getPinnedBase(this.pinned);
-            this.x = this.base.x + g.x;
-            this.y = this.base.y + g.y;
-        };
-        ResponsiveSprite.prototype.destroy = function (destroyChildren) {
-            _super.prototype.destroy.call(this, destroyChildren);
-            this.base = null;
-            this.pinned = null;
-            this.landscapeScalingConfig = null;
-            this.portraitScalingConfig = null;
-        };
-        ResponsiveSprite.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition !== undefined) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        ResponsiveSprite.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition !== undefined) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        return ResponsiveSprite;
-    })(Phaser.Sprite);
-    Fabrique.ResponsiveSprite = ResponsiveSprite;
-})(Fabrique || (Fabrique = {}));
-var Fabrique;
-(function (Fabrique) {
-    var ResponsiveText = (function (_super) {
-        __extends(ResponsiveText, _super);
-        function ResponsiveText(game, x, y, text, style, pin) {
-            var _this = this;
-            if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
-            _super.call(this, game, x, y, text, style);
-            this.portraitScalingConfig = null;
-            this.landscapeScalingConfig = null;
-            this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
-            this.base = new Phaser.Point(x || 0, y || 0);
-            this.setPinned(pin);
-        }
-        ResponsiveText.prototype.setPinned = function (pin, x, y) {
-            if (undefined !== x && undefined !== y) {
-                this.base = new Phaser.Point(x, y);
-            }
-            this.pinned = pin;
-            this.onResize();
-        };
-        ResponsiveText.prototype.onResize = function () {
-            if (this.game === null) {
-                return;
-            }
-            var scalingConfig = null;
-            if (this.game.width > this.game.height && this.landscapeScalingConfig !== null) {
-                //landscape
-                scalingConfig = this.landscapeScalingConfig;
-            }
-            else if (this.portraitScalingConfig !== null) {
-                //portrait
-                scalingConfig = this.portraitScalingConfig;
-            }
-            if (null !== scalingConfig) {
-                this.game.scale.scaleObjectDynamicly(this, scalingConfig.percentage, scalingConfig.percentageOfWidth, scalingConfig.scaleAnyway);
-                var scale = this.scale;
-                this.base = new Phaser.Point(scalingConfig.x * scale.x, scalingConfig.y * scale.y);
-                if (scalingConfig.pinnedPosition !== undefined) {
-                    this.pinned = scalingConfig.pinnedPosition;
-                }
-            }
-            var g = this.game.getPinnedBase(this.pinned);
-            this.x = this.base.x + g.x;
-            this.y = this.base.y + g.y;
-        };
-        ResponsiveText.prototype.destroy = function (destroyChildren) {
-            _super.prototype.destroy.call(this, destroyChildren);
-            this.base = null;
-            this.pinned = null;
-            this.landscapeScalingConfig = null;
-            this.portraitScalingConfig = null;
-        };
-        ResponsiveText.prototype.setPortraitScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition !== undefined) {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.portraitScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        ResponsiveText.prototype.setLandscapeScaling = function (percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
-            if (!pinnedX) {
-                pinnedX = 0;
-            }
-            if (!pinnedY) {
-                pinnedY = 0;
-            }
-            if (pinnedPosition !== undefined) {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY);
-            }
-            else {
-                this.landscapeScalingConfig = new Fabrique.ScalingConfig(percentage, percentageOfWidth, scaleAnyway);
-            }
-            this.onResize();
-        };
-        return ResponsiveText;
-    })(Phaser.Text);
-    Fabrique.ResponsiveText = ResponsiveText;
-})(Fabrique || (Fabrique = {}));
-var Fabrique;
-(function (Fabrique) {
-    (function (PinnedPosition) {
-        PinnedPosition[PinnedPosition["topLeft"] = 0] = "topLeft";
-        PinnedPosition[PinnedPosition["topCenter"] = 1] = "topCenter";
-        PinnedPosition[PinnedPosition["topRight"] = 2] = "topRight";
-        PinnedPosition[PinnedPosition["middleLeft"] = 3] = "middleLeft";
-        PinnedPosition[PinnedPosition["middleCenter"] = 4] = "middleCenter";
-        PinnedPosition[PinnedPosition["middleRight"] = 5] = "middleRight";
-        PinnedPosition[PinnedPosition["bottomLeft"] = 6] = "bottomLeft";
-        PinnedPosition[PinnedPosition["bottomCenter"] = 7] = "bottomCenter";
-        PinnedPosition[PinnedPosition["bottomRight"] = 8] = "bottomRight";
-    })(Fabrique.PinnedPosition || (Fabrique.PinnedPosition = {}));
-    var PinnedPosition = Fabrique.PinnedPosition;
-})(Fabrique || (Fabrique = {}));
-var Fabrique;
-(function (Fabrique) {
     /**
      * Plugins used by OG-Fabrique
      */
     var Plugins;
     (function (Plugins) {
+        //https://github.com/Microsoft/TypeScript-Handbook/blob/master/pages/Mixins.md
+        function applyMixins(derivedCtor, baseCtors) {
+            baseCtors.forEach(function (baseCtor) {
+                Object.getOwnPropertyNames(baseCtor.prototype).forEach(function (name) {
+                    derivedCtor.prototype[name] = baseCtor.prototype[name];
+                });
+            });
+        }
+        Plugins.applyMixins = applyMixins;
         /**
          * GameEvents plugin, adds the events from the PortalEvents interface to the game
          *
@@ -592,8 +126,6 @@ var Fabrique;
                     Object.defineProperty(game, 'getPinnedBase', {
                         value: function (pinned) {
                             switch (pinned) {
-                                case Fabrique.PinnedPosition.topLeft:
-                                    return new Phaser.Point(0, 0);
                                 case Fabrique.PinnedPosition.topCenter:
                                     return new Phaser.Point(_this.game.width / 2, 0);
                                 case Fabrique.PinnedPosition.topRight:
@@ -610,6 +142,9 @@ var Fabrique;
                                     return new Phaser.Point(_this.game.width / 2, _this.game.height);
                                 case Fabrique.PinnedPosition.bottomRight:
                                     return new Phaser.Point(_this.game.width, _this.game.height);
+                                case Fabrique.PinnedPosition.topLeft:
+                                default:
+                                    return new Phaser.Point(0, 0);
                             }
                         }
                     });
@@ -622,10 +157,10 @@ var Fabrique;
                 this.addResponsiveScaleManager();
             }
             Responsiveness.prototype.addResponsiveScaleManager = function () {
-                Phaser.ScaleManager.prototype.scaleObjectDynamicly = function (object, percentage, percentageOfWidth, scaleAnyway) {
+                Phaser.ScaleManager.prototype.scaleObjectDynamicly = function (object, percentage, percentageOfWidth, scaleDesktop) {
                     if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-                    if (scaleAnyway === void 0) { scaleAnyway = false; }
-                    if (this.game.device.desktop && !scaleAnyway) {
+                    if (scaleDesktop === void 0) { scaleDesktop = false; }
+                    if (this.game.device.desktop && !scaleDesktop) {
                         return;
                     }
                     //reset scale
@@ -672,65 +207,65 @@ var Fabrique;
                     if (group === undefined) {
                         group = this.world;
                     }
-                    return group.add(new Fabrique.ResponsiveImage(this.game, x, y, key, frame, pin));
+                    return group.add(new Fabrique.Responsive.Image(this.game, x, y, key, frame, pin));
                 };
                 //for the button
                 Phaser.GameObjectFactory.prototype.responsiveButton = function (x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame, pin, group) {
                     if (group === undefined) {
                         group = this.world;
                     }
-                    return group.add(new Fabrique.ResponsiveButton(this.game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame, pin));
+                    return group.add(new Fabrique.Responsive.Button(this.game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame, pin));
                 };
                 //for the sprite
                 Phaser.GameObjectFactory.prototype.responsiveSprite = function (x, y, key, frame, pin, group) {
                     if (group === undefined) {
                         group = this.world;
                     }
-                    return group.add(new Fabrique.ResponsiveSprite(this.game, x, y, key, frame, pin));
+                    return group.add(new Fabrique.Responsive.Sprite(this.game, x, y, key, frame, pin));
                 };
                 //for the text
                 Phaser.GameObjectFactory.prototype.responsiveText = function (x, y, text, style, pin, group) {
                     if (group === undefined) {
                         group = this.world;
                     }
-                    return group.add(new Fabrique.ResponsiveText(this.game, x, y, text, style, pin));
+                    return group.add(new Fabrique.Responsive.Text(this.game, x, y, text, style, pin));
                 };
                 //for the BitmapText
                 Phaser.GameObjectFactory.prototype.responsiveBitmapText = function (x, y, font, text, size, align, pin, group) {
                     if (group === undefined) {
                         group = this.world;
                     }
-                    return group.add(new Fabrique.ResponsiveBitmapText(this.game, x, y, font, text, size, align, pin));
+                    return group.add(new Fabrique.Responsive.BitmapText(this.game, x, y, font, text, size, align, pin));
                 };
                 //for the group
                 Phaser.GameObjectFactory.prototype.responsiveGroup = function (parent, name, addToStage, enableBody, physicsBodyType, x, y, pin) {
-                    return new Fabrique.ResponsiveGroup(this.game, parent, name, addToStage, enableBody, physicsBodyType, x, y, pin);
+                    return new Fabrique.Responsive.Group(this.game, parent, name, addToStage, enableBody, physicsBodyType, x, y, pin);
                 };
             };
             Responsiveness.prototype.addResponsiveCreator = function () {
                 //For the image
                 Phaser.GameObjectCreator.prototype.responsiveImage = function (x, y, key, frame, pin) {
-                    return new Fabrique.ResponsiveImage(this.game, x, y, key, frame, pin);
+                    return new Fabrique.Responsive.Image(this.game, x, y, key, frame, pin);
                 };
                 //for the button
                 Phaser.GameObjectCreator.prototype.responsiveButton = function (x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame, pin, group) {
-                    return new Fabrique.ResponsiveButton(this.game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame, pin);
+                    return new Fabrique.Responsive.Button(this.game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame, pin);
                 };
                 //for the sprite
                 Phaser.GameObjectCreator.prototype.responsiveSprite = function (x, y, key, frame, pin) {
-                    return new Fabrique.ResponsiveSprite(this.game, x, y, key, frame, pin);
+                    return new Fabrique.Responsive.Sprite(this.game, x, y, key, frame, pin);
                 };
                 //for the text
                 Phaser.GameObjectCreator.prototype.responsiveText = function (x, y, text, style, pin) {
-                    return new Fabrique.ResponsiveText(this.game, x, y, text, style, pin);
+                    return new Fabrique.Responsive.Text(this.game, x, y, text, style, pin);
                 };
                 //for the BitmapText
                 Phaser.GameObjectCreator.prototype.responsiveBitmapText = function (x, y, font, text, size, align, pin) {
-                    return new Fabrique.ResponsiveBitmapText(this.game, x, y, font, text, size, align, pin);
+                    return new Fabrique.Responsive.BitmapText(this.game, x, y, font, text, size, align, pin);
                 };
                 //for the group
                 Phaser.GameObjectCreator.prototype.responsiveGroup = function (parent, name, addToStage, enableBody, physicsBodyType, x, y, pin) {
-                    return new Fabrique.ResponsiveGroup(this.game, parent, name, addToStage, enableBody, physicsBodyType, x, y, pin);
+                    return new Fabrique.Responsive.Group(this.game, parent, name, addToStage, enableBody, physicsBodyType, x, y, pin);
                 };
             };
             return Responsiveness;
@@ -738,27 +273,222 @@ var Fabrique;
         Plugins.Responsiveness = Responsiveness;
     })(Plugins = Fabrique.Plugins || (Fabrique.Plugins = {}));
 })(Fabrique || (Fabrique = {}));
+/// <reference path="ResponsivePosition.ts"/>
+/// <reference path="ResponsiveScale.ts"/>
+/// <reference path="../Plugin.ts"/>
 var Fabrique;
 (function (Fabrique) {
-    var ScalingConfig = (function () {
-        function ScalingConfig(percentage, percentageOfWidth, scaleAnyway, pinnedPosition, pinnedX, pinnedY) {
-            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
-            if (scaleAnyway === void 0) { scaleAnyway = false; }
+    var Responsive;
+    (function (Responsive) {
+        var BitmapText = (function (_super) {
+            __extends(BitmapText, _super);
+            function BitmapText(game, x, y, font, text, size, align, pin) {
+                var _this = this;
+                if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
+                _super.call(this, game, x, y, font, text, size, align);
+                this.basePositionConfig = null;
+                this.landscapePositionConfig = null;
+                this.portraitPositionConfig = null;
+                this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
+                this.setPinned(pin, x || 0, y || 0);
+            }
+            BitmapText.prototype.onResize = function () {
+                this.updatePosition();
+                // this.updateScaling();
+            };
+            return BitmapText;
+        })(Phaser.BitmapText);
+        Responsive.BitmapText = BitmapText;
+        Fabrique.Plugins.applyMixins(BitmapText, [Responsive.Position]);
+    })(Responsive = Fabrique.Responsive || (Fabrique.Responsive = {}));
+})(Fabrique || (Fabrique = {}));
+var Fabrique;
+(function (Fabrique) {
+    var Responsive;
+    (function (Responsive) {
+        var Button = (function (_super) {
+            __extends(Button, _super);
+            function Button(game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame, pin) {
+                var _this = this;
+                if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
+                _super.call(this, game, x, y, key, callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
+                this.basePositionConfig = null;
+                this.landscapePositionConfig = null;
+                this.portraitPositionConfig = null;
+                this.baseScaleConfig = null;
+                this.landscapeScalingConfig = null;
+                this.portraitScalingConfig = null;
+                this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
+                this.setPinned(pin, x || 0, y || 0);
+            }
+            Button.prototype.onResize = function () {
+                this.updatePosition();
+                this.updateScaling();
+            };
+            return Button;
+        })(Phaser.Button);
+        Responsive.Button = Button;
+        Fabrique.Plugins.applyMixins(Button, [Responsive.Position, Responsive.Scale]);
+    })(Responsive = Fabrique.Responsive || (Fabrique.Responsive = {}));
+})(Fabrique || (Fabrique = {}));
+var Fabrique;
+(function (Fabrique) {
+    var Responsive;
+    (function (Responsive) {
+        var Group = (function (_super) {
+            __extends(Group, _super);
+            function Group(game, parent, name, addToStage, enableBody, physicsBodyType, x, y, pin) {
+                var _this = this;
+                if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
+                _super.call(this, game, parent, name, addToStage, enableBody, physicsBodyType);
+                this.basePositionConfig = null;
+                this.landscapePositionConfig = null;
+                this.portraitPositionConfig = null;
+                this.baseScaleConfig = null;
+                this.landscapeScalingConfig = null;
+                this.portraitScalingConfig = null;
+                this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
+                this.setPinned(pin, x || 0, y || 0);
+            }
+            Group.prototype.onResize = function () {
+                this.updatePosition();
+                this.updateScaling();
+            };
+            return Group;
+        })(Phaser.Group);
+        Responsive.Group = Group;
+        Fabrique.Plugins.applyMixins(Group, [Responsive.Position, Responsive.Scale]);
+    })(Responsive = Fabrique.Responsive || (Fabrique.Responsive = {}));
+})(Fabrique || (Fabrique = {}));
+var Fabrique;
+(function (Fabrique) {
+    var Responsive;
+    (function (Responsive) {
+        var Image = (function (_super) {
+            __extends(Image, _super);
+            function Image(game, x, y, key, frame, pin) {
+                var _this = this;
+                if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
+                _super.call(this, game, x, y, key, frame);
+                this.basePositionConfig = null;
+                this.landscapePositionConfig = null;
+                this.portraitPositionConfig = null;
+                this.baseScaleConfig = null;
+                this.landscapeScalingConfig = null;
+                this.portraitScalingConfig = null;
+                this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
+                this.setPinned(pin, x || 0, y || 0);
+            }
+            Image.prototype.onResize = function () {
+                this.updatePosition();
+                this.updateScaling();
+            };
+            return Image;
+        })(Phaser.Image);
+        Responsive.Image = Image;
+        Fabrique.Plugins.applyMixins(Image, [Responsive.Position, Responsive.Scale]);
+    })(Responsive = Fabrique.Responsive || (Fabrique.Responsive = {}));
+})(Fabrique || (Fabrique = {}));
+var Fabrique;
+(function (Fabrique) {
+    var Responsive;
+    (function (Responsive) {
+        var Sprite = (function (_super) {
+            __extends(Sprite, _super);
+            function Sprite(game, x, y, key, frame, pin) {
+                var _this = this;
+                if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
+                _super.call(this, game, x, y, key, frame);
+                this.basePositionConfig = null;
+                this.landscapePositionConfig = null;
+                this.portraitPositionConfig = null;
+                this.baseScaleConfig = null;
+                this.landscapeScalingConfig = null;
+                this.portraitScalingConfig = null;
+                this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
+                this.setPinned(pin, x || 0, y || 0);
+            }
+            Sprite.prototype.onResize = function () {
+                this.updatePosition();
+                this.updateScaling();
+            };
+            return Sprite;
+        })(Phaser.Sprite);
+        Responsive.Sprite = Sprite;
+        Fabrique.Plugins.applyMixins(Sprite, [Responsive.Position, Responsive.Scale]);
+    })(Responsive = Fabrique.Responsive || (Fabrique.Responsive = {}));
+})(Fabrique || (Fabrique = {}));
+var Fabrique;
+(function (Fabrique) {
+    var Responsive;
+    (function (Responsive) {
+        var Text = (function (_super) {
+            __extends(Text, _super);
+            function Text(game, x, y, text, style, pin) {
+                var _this = this;
+                if (pin === void 0) { pin = Fabrique.PinnedPosition.topLeft; }
+                _super.call(this, game, x, y, text, style);
+                this.basePositionConfig = null;
+                this.landscapePositionConfig = null;
+                this.portraitPositionConfig = null;
+                this.baseScaleConfig = null;
+                this.landscapeScalingConfig = null;
+                this.portraitScalingConfig = null;
+                this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
+                this.setPinned(pin, x || 0, y || 0);
+            }
+            Text.prototype.onResize = function () {
+                this.updatePosition();
+                this.updateScaling();
+            };
+            return Text;
+        })(Phaser.Text);
+        Responsive.Text = Text;
+        Fabrique.Plugins.applyMixins(Text, [Responsive.Position, Responsive.Scale]);
+    })(Responsive = Fabrique.Responsive || (Fabrique.Responsive = {}));
+})(Fabrique || (Fabrique = {}));
+var Fabrique;
+(function (Fabrique) {
+    var PinnedConfig = (function () {
+        function PinnedConfig(pinnedPosition, pinnedX, pinnedY) {
+            if (pinnedPosition === void 0) { pinnedPosition = Fabrique.PinnedPosition.topLeft; }
+            if (pinnedX === void 0) { pinnedX = 0; }
+            if (pinnedY === void 0) { pinnedY = 0; }
             this.pinnedPosition = undefined;
             this.x = 0;
             this.y = 0;
+            this.pinnedPosition = pinnedPosition;
+            this.x = pinnedX;
+            this.y = pinnedY;
+        }
+        return PinnedConfig;
+    })();
+    Fabrique.PinnedConfig = PinnedConfig;
+})(Fabrique || (Fabrique = {}));
+var Fabrique;
+(function (Fabrique) {
+    (function (PinnedPosition) {
+        PinnedPosition[PinnedPosition["topLeft"] = 0] = "topLeft";
+        PinnedPosition[PinnedPosition["topCenter"] = 1] = "topCenter";
+        PinnedPosition[PinnedPosition["topRight"] = 2] = "topRight";
+        PinnedPosition[PinnedPosition["middleLeft"] = 3] = "middleLeft";
+        PinnedPosition[PinnedPosition["middleCenter"] = 4] = "middleCenter";
+        PinnedPosition[PinnedPosition["middleRight"] = 5] = "middleRight";
+        PinnedPosition[PinnedPosition["bottomLeft"] = 6] = "bottomLeft";
+        PinnedPosition[PinnedPosition["bottomCenter"] = 7] = "bottomCenter";
+        PinnedPosition[PinnedPosition["bottomRight"] = 8] = "bottomRight";
+    })(Fabrique.PinnedPosition || (Fabrique.PinnedPosition = {}));
+    var PinnedPosition = Fabrique.PinnedPosition;
+})(Fabrique || (Fabrique = {}));
+var Fabrique;
+(function (Fabrique) {
+    var ScalingConfig = (function () {
+        function ScalingConfig(percentage, percentageOfWidth, scaleDesktop) {
+            if (percentageOfWidth === void 0) { percentageOfWidth = true; }
+            if (scaleDesktop === void 0) { scaleDesktop = false; }
             this.percentage = percentage;
             this.percentageOfWidth = percentageOfWidth;
-            this.scaleAnyway = scaleAnyway;
-            if (pinnedPosition !== undefined) {
-                this.pinnedPosition = pinnedPosition;
-            }
-            if (pinnedX) {
-                this.x = pinnedX;
-            }
-            if (pinnedY) {
-                this.y = pinnedY;
-            }
+            this.scaleDesktop = scaleDesktop;
         }
         return ScalingConfig;
     })();

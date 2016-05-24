@@ -23,6 +23,7 @@ declare module Fabrique {
             portraitScalingConfig: ScalingConfig;
             game: Phaser.Game;
             scale: Phaser.Point;
+            oldScale: Phaser.Point;
             getScalingConfig(): ScalingConfig;
             updateScaling(): void;
             setScaling(percentage: number, percentageOfWidth: boolean, scaleDesktop: boolean): void;
@@ -85,6 +86,7 @@ declare module Fabrique {
             landscapePositionConfig: PinnedConfig;
             portraitPositionConfig: PinnedConfig;
             scale: Phaser.Point;
+            oldScale: Phaser.Point;
             constructor(game: Phaser.Game, x: number, y: number, font: string, text?: string, size?: number, align?: string, pin?: PinnedPosition);
             onResize(): void;
             getPositionConfig: () => PinnedConfig;
@@ -104,6 +106,8 @@ declare module Fabrique {
             baseScaleConfig: ScalingConfig;
             landscapeScalingConfig: ScalingConfig;
             portraitScalingConfig: ScalingConfig;
+            scale: Phaser.Point;
+            oldScale: Phaser.Point;
             constructor(game: Phaser.Game, x?: number, y?: number, key?: string, callback?: Function, callbackContext?: any, overFrame?: string | number, outFrame?: string | number, downFrame?: string | number, upFrame?: string | number, pin?: PinnedPosition);
             onResize(): void;
             getPositionConfig: () => PinnedConfig;
@@ -128,6 +132,8 @@ declare module Fabrique {
             baseScaleConfig: ScalingConfig;
             landscapeScalingConfig: ScalingConfig;
             portraitScalingConfig: ScalingConfig;
+            scale: Phaser.Point;
+            oldScale: Phaser.Point;
             constructor(game: Phaser.Game, parent?: PIXI.DisplayObjectContainer, name?: string, addToStage?: boolean, enableBody?: boolean, physicsBodyType?: number, x?: number, y?: number, pin?: PinnedPosition);
             onResize(): void;
             getPositionConfig: () => PinnedConfig;
@@ -152,6 +158,8 @@ declare module Fabrique {
             baseScaleConfig: ScalingConfig;
             landscapeScalingConfig: ScalingConfig;
             portraitScalingConfig: ScalingConfig;
+            scale: Phaser.Point;
+            oldScale: Phaser.Point;
             constructor(game: Phaser.Game, x: number, y: number, key: string | Phaser.RenderTexture | Phaser.BitmapData | PIXI.Texture, frame?: string | number, pin?: PinnedPosition);
             onResize(): void;
             getPositionConfig: () => PinnedConfig;
@@ -176,6 +184,8 @@ declare module Fabrique {
             baseScaleConfig: ScalingConfig;
             landscapeScalingConfig: ScalingConfig;
             portraitScalingConfig: ScalingConfig;
+            scale: Phaser.Point;
+            oldScale: Phaser.Point;
             constructor(game: Phaser.Game, x: number, y: number, key?: string | Phaser.RenderTexture | Phaser.BitmapData | PIXI.Texture, frame?: string | number, pin?: PinnedPosition);
             onResize(): void;
             getPositionConfig: () => PinnedConfig;
@@ -200,6 +210,8 @@ declare module Fabrique {
             baseScaleConfig: ScalingConfig;
             landscapeScalingConfig: ScalingConfig;
             portraitScalingConfig: ScalingConfig;
+            scale: Phaser.Point;
+            oldScale: Phaser.Point;
             constructor(game: Phaser.Game, x: number, y: number, text: string, style?: Phaser.PhaserTextStyle, pin?: PinnedPosition);
             onResize(): void;
             getPositionConfig: () => PinnedConfig;

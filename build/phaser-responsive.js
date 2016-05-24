@@ -1,9 +1,9 @@
 /*!
- * phaser-responsive - version 2.0.0 
+ * phaser-responsive - version 2.0.0-alpha1 
  * Adds responsive objects that can be pinned to Phaser!
  *
  * OrangeGames
- * Build at 18-05-2016
+ * Build at 24-05-2016
  * Released under MIT License 
  */
 
@@ -72,6 +72,11 @@ var Fabrique;
             };
             Scale.prototype.updateScaling = function () {
                 var config = this.getScalingConfig();
+                if (config === null) {
+                    this.scale.set(this.oldScale.x, this.oldScale.y);
+                    return;
+                }
+                this.oldScale.set(this.scale.x, this.scale.y);
                 this.game.scale.scaleObjectDynamicly(this, config.percentage, config.percentageOfWidth, config.scaleDesktop);
             };
             Scale.prototype.setScaling = function (percentage, percentageOfWidth, scaleDesktop) {
@@ -289,6 +294,7 @@ var Fabrique;
                 this.basePositionConfig = null;
                 this.landscapePositionConfig = null;
                 this.portraitPositionConfig = null;
+                this.oldScale = new Phaser.Point(1, 1);
                 this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
                 this.setPinned(pin, x || 0, y || 0);
             }
@@ -318,6 +324,7 @@ var Fabrique;
                 this.baseScaleConfig = null;
                 this.landscapeScalingConfig = null;
                 this.portraitScalingConfig = null;
+                this.oldScale = new Phaser.Point(1, 1);
                 this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
                 this.setPinned(pin, x || 0, y || 0);
             }
@@ -347,6 +354,7 @@ var Fabrique;
                 this.baseScaleConfig = null;
                 this.landscapeScalingConfig = null;
                 this.portraitScalingConfig = null;
+                this.oldScale = new Phaser.Point(1, 1);
                 this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
                 this.setPinned(pin, x || 0, y || 0);
             }
@@ -376,6 +384,7 @@ var Fabrique;
                 this.baseScaleConfig = null;
                 this.landscapeScalingConfig = null;
                 this.portraitScalingConfig = null;
+                this.oldScale = new Phaser.Point(1, 1);
                 this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
                 this.setPinned(pin, x || 0, y || 0);
             }
@@ -405,6 +414,7 @@ var Fabrique;
                 this.baseScaleConfig = null;
                 this.landscapeScalingConfig = null;
                 this.portraitScalingConfig = null;
+                this.oldScale = new Phaser.Point(1, 1);
                 this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
                 this.setPinned(pin, x || 0, y || 0);
             }
@@ -434,6 +444,7 @@ var Fabrique;
                 this.baseScaleConfig = null;
                 this.landscapeScalingConfig = null;
                 this.portraitScalingConfig = null;
+                this.oldScale = new Phaser.Point(1, 1);
                 this.game.scale.onSizeChange.add(function () { return _this.onResize(); }, null);
                 this.setPinned(pin, x || 0, y || 0);
             }

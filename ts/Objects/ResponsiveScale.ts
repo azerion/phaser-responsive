@@ -11,6 +11,8 @@ module Fabrique {
 
             public scale: Phaser.Point;
 
+            public oldScale: Phaser.Point;
+
             public getScalingConfig(): ScalingConfig {
                 if (!this.game.device.desktop) {
                     if (this.game.width > this.game.height && this.landscapeScalingConfig !== null) {
@@ -27,6 +29,13 @@ module Fabrique {
 
             public updateScaling(): void {
                 let config: ScalingConfig = this.getScalingConfig();
+
+                if (config === null) {
+                    this.scale.set(this.oldScale.x, this.oldScale.y);
+                    return;
+                }
+
+                this.oldScale.set(this.scale.x, this.scale.y);
 
                 (<Fabrique.Plugins.ResponsiveScaleManager>this.game.scale).scaleObjectDynamicly(
                     <any>this,

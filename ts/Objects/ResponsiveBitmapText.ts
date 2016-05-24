@@ -9,6 +9,7 @@ module Fabrique {
             public portraitPositionConfig: PinnedConfig = null;
 
             public scale: Phaser.Point;
+            public oldScale: Phaser.Point = new Phaser.Point(1, 1);
 
             constructor(game: Phaser.Game, x: number, y: number, font: string, text?: string, size?: number, align?: string, pin: PinnedPosition = PinnedPosition.topLeft) {
                 super(game, x, y, font, text, size, align);

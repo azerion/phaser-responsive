@@ -15,6 +15,7 @@
         var sampleText;
         var sampleImage;
         var sampleButton;
+        var sampleBitmap;
         var moreStyle = { font: "20px Century Gothic", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
         var onClickText;
 
@@ -24,6 +25,7 @@
 
             game.load.image('square', 'image.png', 24);
             game.load.image('button', 'Button.png', 10,10);
+            game.load.bitmapFont('desyrel', 'desyrel.png', 'desyrel.xml');
 
             //Text which will be displayed when button is clicked
             onClickText = game.add.responsiveText(0, 0, "Expecto Patronus", moreStyle, Fabrique.PinnedPosition.middleCenter);
@@ -41,6 +43,9 @@
 
             sampleButton = game.add.responsiveButton(0,0, 'button', actionOnClick, this, 2, 1, 0, Fabrique.PinnedPosition.topLeft);
             sampleButton.anchor.set(0,0);
+
+            sampleBitmap = game.add.responsiveBitmapText(0, 0, 'desyrel', 'Phaser & Pixi\nrocking!', 20, null, Fabrique.PinnedPosition.bottomLeft);
+            sampleBitmap.anchor.set(0, 1);
         }
 
 

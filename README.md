@@ -2,6 +2,10 @@ Phaser Responsive
 ================
 Phaser-Responsive plugin adds images/sprites/buttons/groups that can be pinned to corners/sides/center!
 
+NOTICE
+------
+This repo is depecrated in favor of Phasers alignIn / alignTo methods introduced in Phaser@2.5.0
+
 Getting Started
 ---------------
 First you want to get a fresh copy of the plugin. You can get it from this repo or from npm, ain't that handy.
